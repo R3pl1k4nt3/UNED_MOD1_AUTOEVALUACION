@@ -1,0 +1,114 @@
+# EJERCICIOS OBLIGATORIOS
+# PROGRAMACIÓN BÁSICA (5 puntos)
+
+input_check <- function(value_list) {
+  
+  # 1. ¿Es una lista?
+  if (!is.list(value_list)) {
+    stop("La entrada de la función debe ser una lista")
+  }
+  
+  # 2. ¿Está vacía?
+  
+  if (length(value_list) == 0) {
+    stop("La lista de entrada no puede estar vacía")
+  }
+  
+  # 3. VERIFICACIÓN ESTRICTA DE TIPOS 
+  
+  
+  # Usamos vapply para asegurar que devuelve TRUE/FALSE
+  es_texto <- vapply(value_list, is.character, FUN.VALUE = logical(1))
+  
+  if (!all(es_texto)) {
+    # Buscamos qué posiciones fallaron (ej: el índice 2)
+    indices_malos <- which(!es_texto)
+    valores_malos <- paste(indices_malos, collapse = ", ")
+    
+    # Lanzamos el mensaje exacto que espera el test
+    stop(paste("Todos los elementos deben ser strings. Fallo en índices:", valores_malos))
+  }
+}
+
+
+# Cuestión 1
+# 
+# Defina una función que concatene una lista de palabras en una única frase
+# 
+# Output de la función: string que sea el resultado de la frase obtenida
+
+concatenar <- function(value_list){
+  
+  #Comprobacion de los valores antes de lanzar
+  input_check(value_list)
+  
+  frase <- paste(unlist(value_list), collapse =" ")
+  return(frase)
+}
+
+# test_concatenar = list("Hola","Mundo","prueba","R")
+# 
+# test_concatenar2 = list(
+#   nombre = "Alex",
+#   lenguaje = "R",
+#   estado = "Aprendiendo"
+# )
+
+# concatenar(test_concatenar)
+# concatenar(test_concatenar2)
+
+
+
+
+# Cuestión 2
+# 
+# A partir de una lista de palabras, defina una función que encuentre la palabra con más vocales. Si hay más de una debe devolverse todas aquellas palabras que cumplan la condición.
+# 
+# Output de la función: lista de strings con las palabras que cumplan la condición
+
+palabras_vocales <- function(value_list){
+  #Comprobacion de los valores antes de lanzar
+  input_check(value_list)
+  
+  vocales <- c("a","e","i","o","u")
+  lista_palabras <- unlist(value_list)
+  
+  # Normalizo el texto. Convierto las mayusculas en minusculas y los posibles acentos para tener todo controlado
+  #1. todo a minusculas
+  palabras_normalizado <- tolower(lista_palabras)
+  
+  # 2. Ahora quitamos los posibles acentos, pero solo para contar
+  palabras_normalizado <- chartr("áéíóúàèìòùâêîôûäëïöü",
+                                 "aeiouaeiouaeiouaeiou",
+                                 palabras_normalizado)
+  
+  # Encuentro iconv que traduce a UTF-8 y de ahí realizo el conteo de vocales
+  #palabras_normalizado <- iconv(palabras_normalizado, from = "UTF-8", to ="ASCII/TRANSLIT")
+  
+  # Creo un vector vacio con la longitud de palabras
+  contador <- numeric(length(palabras_normalizado))
+  
+  for (i in 1:length(palabras_normalizado)){
+    palabra_bucle <- palabras_normalizado[i]
+    
+    # procedemos a splitear las palabras y a comparar 
+    letras <- strsplit(palabra_bucle, split = "")[[1]]
+    
+    vocales_in_palabra <- letras %in% vocales
+    contador[i] <- sum(vocales_in_palabra)
+  }
+  
+  #3. Ya tenemos el numero de vocales, ahora debemos devolver la palabra
+  
+  max_vocales <- max(contador)
+  
+  # llamamos a la palabra original sin lowercase y sin transformar los acentos
+  palabra_max_vocales <- lista_palabras[contador == max_vocales]
+  
+  return(as.list(palabra_max_vocales))
+  
+}
+# lista_vacia = list()
+# lista_fake = list("ESTA","Es","una","lista FAKE",0)
+# palabras_vocales(lista_fake)
+# palabras_vocales(lista_vacia)
