@@ -232,6 +232,120 @@ multiplos_tres_positivos <- function(value_list) {
   return(as.list(resultado_vector))
 }
 
+# Cuestión 6
+# 
+# Defina una función que, dada una lista de números, devuelva la mediana.
+# 
+# Output: dato numérico (int o float)
+
+calculo_mediana <- function(value_list) {
+  
+  # Comprobación de los valores usando el check numérico
+  input_check_num(value_list)
+  
+  # Convertimos a vector para que la función median() pueda procesarlo
+  vector_numeros <- unlist(value_list)
+  
+  # Calculamos la mediana
+  resultado <- median(vector_numeros)
+  
+  return(resultado)
+}
 
 
+# Cuestión 7
+# 
+# Defina una función que, dada una lista de números, devuelva la suma de los números positivos y la de los negativos por separado.
+# 
+# Output: diccionario con dos keys cuyos valores sean listas de números (positivos y negativos, respectivamente).
+
+lista_suma_pos_neg <- function(value_list) {
+  
+  # Comprobación de los valores
+  input_check_num(value_list)
+  
+  vector_numeros <- unlist(value_list)
+  
+  # Filtramos y calculamos la suma
+  suma_positivos <- sum(vector_numeros[vector_numeros >= 0])
+  suma_negativos <- sum(vector_numeros[vector_numeros < 0])
+  
+  #resultado de la suma dentro de una lista.
+  resultado <- list(
+    positivos = list(suma_positivos),
+    negativos = list(suma_negativos)
+  )
+  
+  return(resultado)
+}
+# 
+# Cuestión 8
+# Defina una función que, dada una lista de números, devuelva la suma de los números positivos y la de los negativos por separado.
+# 
+# Output: diccionario con dos keys cuyos valores sean listas de números (positivos y negativos, respectivamente).
+# ES LA MISMA QUE LA 7
+
+
+
+
+
+
+# ES LA MISMA QUE LA 7
+
+
+# Cuestión 9
+# 
+# Defina una función que reciba una palabra y notifique las vocales existentes.
+# 
+# Output: diccionario con cinco keys (a, e, i, o, u) y valor true o false.
+
+notificar_vocales <- function(string) {
+  # USO EL INPUT_CHECK pero al ser string lo transformo en una lista
+  input_check(list(string)) 
+  
+  vocales <- c("a", "e", "i", "o", "u")
+  
+  # --- Reutilización de tu lógica de la Cuestión 2 ---
+  # 1. NORMALIZAMOS -- minusculas y acentos fuera
+  palabra_norm <- tolower(string)
+  
+  palabra_norm <- chartr("áéíóúàèìòùâêîôûäëïöü",
+                         "aeiouaeiouaeiouaeiou",
+                         palabra_norm)
+  
+  # Procedemos a splitear
+  letras <- strsplit(palabra_norm, split = "")[[1]]
+  
+  # 3. Diccionario de salida
+ 
+  resultado <- list()
+  for (i in vocales) {
+    # Si la vocal i está en el vector de letras, guardamos TRUE, si no FALSE
+    resultado[[i]] <- i %in% letras
+  }
+  
+  return(resultado)
+}
+
+# Cuestión 10
+# 
+# Defina una función que elimine las palabras repetidas de una lista.
+# 
+# Output: lista con las palabras sin repetir (normalizadas a minúsculas)
+
+eliminar_repetidos <- function(value_list) {
+  
+  # 1. Comprobación valores
+  input_check(value_list)
+  
+  # 2. Pasamos a vector y normalizamos a minúsculas para comparar correctamente
+  palabras_vector <- unlist(value_list)
+  palabras_min <- tolower(palabras_vector)
+  
+  # 3. Eliminamos duplicados
+  palabras_unicas <- unique(palabras_min)
+  
+  # 4. Devolvemos el resultado como lista
+  return(as.list(palabras_unicas))
+}
 
