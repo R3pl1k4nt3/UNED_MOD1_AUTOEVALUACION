@@ -6,15 +6,15 @@ source("programacion_basica.R")
 # BLOQUE 1: Tests para la función 'concatenar'
 # ============================================================================
 
-test_that("Funcionalidad correcta de concatenar (Happy Path)", {
+test_that("Happy Path", {
   
   # Caso 1: Lista simple estándar
   input_1 <- list("Hola", "Mundo", "R")
   output_1 <- concatenar(input_1)
   
-  expect_is(output_1, "character")       # Chequeo de tipo
-  expect_equal(output_1, "Hola Mundo R") # Chequeo de valor
-  expect_length(output_1, 1)             # Debe devolver un solo string
+  expect_is(output_1, "character")       # Compruebo tipo
+  expect_equal(output_1, "Hola Mundo R") # Compruebo valor
+  expect_length(output_1, 1)             # Compruebo que devuelve un solo string
   
   # Caso 2: Lista nombrada (Simulación de Diccionario Python)
   # Verificamos que ignora las claves y usa los valores, como se pide
@@ -26,7 +26,7 @@ test_that("Funcionalidad correcta de concatenar (Happy Path)", {
   expect_equal(concatenar(input_2), "El gato negro")
 })
 
-test_that("Gestión de errores en concatenar (Sad Path)", {
+test_that("Gestión de errores - Sad Path", {
   
   # Error 1: Entrada no es lista
   expect_error(
@@ -83,6 +83,10 @@ test_that("Funcionalidad correcta de palabras_vocales", {
   expect_true("día" %in% unlist(output_3))
 })
 
+# ============================================================================
+# BLOQUE 3: Tests para la función 'lista_no_negativos'
+# ============================================================================
+
 test_that("Gestión de errores en palabras_vocales", {
   
   # Reutilizamos el input_check, así que los errores deben ser idénticos
@@ -93,4 +97,50 @@ test_that("Gestión de errores en palabras_vocales", {
   # Error de contenido numérico
   input_error <- list(3.14, "pi")
   expect_error(palabras_vocales(input_error), "Fallo en índices: 1")
+})
+
+
+test_that("Happy Path - lista_no_negativos", {
+  
+  # Caso 1: Mezcla estándar de positivos, negativos y decimales
+  input_1 <- list(10, -5, 3.5, -1.2, 0)
+  output_1 <- lista_no_negativos(input_1)
+  
+  expect_is(output_1, "list")               # Compruebo tipo (debe ser lista)
+  expect_equal(unlist(output_1), c(10, 3.5, 0)) # Compruebo valores filtrados
+  expect_length(output_1, 3)                # Compruebo que quedan 3 elementos
+  
+  # Caso 2: Todos negativos
+  # Verificamos que devuelve una lista vacía pero de tipo lista
+  input_2 <- list(-10, -20, -30)
+  output_2 <- lista_no_negativos(input_2)
+  expect_length(output_2, 0)
+  expect_is(output_2, "list")
+  
+  # Caso 3: Lista con ceros y positivos (No debe eliminar nada)
+  input_3 <- list(0, 100, 0.001)
+  expect_equal(unlist(lista_no_negativos(input_3)), c(0, 100, 0.001))
+})
+
+test_that("Gestión de errores - Sad Path", {
+  
+  # Error 1: Entrada no es lista
+  expect_error(
+    lista_no_negativos(c(1, 2, 3)), 
+    "La entrada de la función debe ser una lista"
+  )
+  
+  # Error 2: Lista vacía
+  expect_error(
+    lista_no_negativos(list()), 
+    "La lista de entrada no puede estar vacía"
+  )
+  
+  # Error 3: Tipos incorrectos (Strings mezclados)
+  # El mensaje de error debe identificar el índice del fallo usando input_check_num
+  input_mix <- list(10, "NoSoyNumero", 5)
+  expect_error(
+    lista_no_negativos(input_mix),
+    "Todos los elementos deben ser números. Fallo en índices: 2"
+  )
 })

@@ -108,7 +108,60 @@ palabras_vocales <- function(value_list){
   return(as.list(palabra_max_vocales))
   
 }
-# lista_vacia = list()
-# lista_fake = list("ESTA","Es","una","lista FAKE",0)
-# palabras_vocales(lista_fake)
-# palabras_vocales(lista_vacia)
+
+
+# Cuestión 3
+# 
+# A partir de una lista de números, defina una función que elimine todos los números negativos
+# 
+# Output de la función: lista de números sin valores negativos
+
+input_check_num <- function(value_list) {
+  
+  # 1. ¿Es una lista?
+  if (!is.list(value_list)) {
+    stop("La entrada de la función debe ser una lista")
+  }
+  
+  # 2. ¿Está vacía?
+  if (length(value_list) == 0) {
+    stop("La lista de entrada no puede estar vacía")
+  }
+  
+  # 3. VERIFICACIÓN ESTRICTA DE TIPOS (Numéricos)
+  # Usamos vapply para asegurar que devuelve TRUE/FALSE
+  es_numero <- vapply(value_list, is.numeric, FUN.VALUE = logical(1))
+  
+  if (!all(es_numero)) {
+    # Buscamos qué posiciones fallaron
+    indices_malos <- which(!es_numero)
+    valores_malos <- paste(indices_malos, collapse = ", ")
+    
+    # Lanzamos el mensaje exacto
+    stop(paste("Todos los elementos deben ser números. Fallo en índices:", valores_malos))
+  }
+}
+
+lista_no_negativos <- function(value_list) {
+  
+  # Comprobación
+  input_check_num(value_list)
+  
+  # Convertimos a vector para filtrar de forma sencilla
+  vector_numeros <- unlist(value_list)
+  
+  # Filtramos: nos quedamos con los que son mayores o iguales a 0
+  no_negativos <- vector_numeros[vector_numeros >= 0]
+  
+  # Devolvemos el resultado como una lista
+  return(as.list(no_negativos))
+  
+  ## POSIBILIDAD CON FILTER 
+  # resultado <- Filter(function(x) x >= 0, value_list)
+  # return(resultado)
+}
+
+
+
+
+
