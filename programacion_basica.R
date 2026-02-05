@@ -194,5 +194,44 @@ agrupar_por_letra <- function(value_list) {
   return(diccionario)
 }
 
+# Cuestión 5
+# 
+# Defina una función que devuelva los múltiplos de 3 no negativos
+# 
+# Output de la función: lista de números (múltiplos de 3 y >= 0)
+
+# SIN REUTILIZAR LA FUNCION DE LA CUESTION 3 -- lista_no_negativos <- function(value_list)
+# multiplos_tres_positivos <- function(value_list) {
+#   
+#   # Comprobación de los valores usando el check numérico ya definido
+#   input_check_num(value_list)
+#   
+#   # Convertimos a vector para operar de forma eficiente
+#   vector_numeros <- unlist(value_list)
+#   
+#   # Aplicamos doble filtro: 
+#   # 1. Múltiplo de 3 (resto de división %% es 0)
+#   # 2. No negativo (>= 0)
+#   resultado_vector <- vector_numeros[vector_numeros %% 3 == 0 & vector_numeros >= 0]
+#   
+#   # Devolvemos el resultado como una lista
+#   return(as.list(resultado_vector))
+# }
+
+# Mejor llamo a la funcion lista_no_negativos xq me va a realizar el input_check y luego me realiza el filtro de los negativos. 
+multiplos_tres_positivos <- function(value_list) {
+  
+  # 1. LLamo a la función
+  lista_limpia <- lista_no_negativos(value_list)
+  
+  # 2.múltiplos de 3
+  vector_numeros <- unlist(lista_limpia)
+  resultado_vector <- vector_numeros[vector_numeros %% 3 == 0]
+  
+  # Devolvemos el resultado como una lista
+  return(as.list(resultado_vector))
+}
+
+
 
 

@@ -182,3 +182,40 @@ test_that("Gestión de errores - Sad Path", {
     "Todos los elementos deben ser strings. Fallo en índices: 2"
   )
 })
+
+
+# ============================================================================
+# BLOQUE 5: Tests para la función 'multiplos_tres_positivos'
+# ============================================================================
+
+test_that("Happy Path - multiplos_tres_positivos", {
+  
+  # Caso 1: Mezcla de números
+  # 9 (múltiplo y +), -3 (múltiplo pero -), 4 (no múltiplo), 0 (es múltiplo de 3 y no es negativo)
+  input_1 <- list(9, -3, 4, 0, 6)
+  output_1 <- multiplos_tres_positivos(input_1)
+  
+  expect_is(output_1, "list") 
+  expect_equal(unlist(output_1), c(9, 0, 6)) # Solo debe devolver 9, 0 y 6
+  expect_length(output_1, 3)
+  
+  # Caso 2: Ningún múltiplo de 3 en la lista
+  input_2 <- list(1, 2, 4, 5)
+  expect_length(multiplos_tres_positivos(input_2), 0)
+})
+
+test_that("Gestión de errores - Sad Path", {
+  
+  # Error 1: Entrada no es lista (gestión por input_check_num)
+  expect_error(
+    multiplos_tres_positivos(c(3, 6, 9)), 
+    "La entrada de la función debe ser una lista"
+  )
+  
+  # Error 2: Tipos incorrectos (String en lista de números)
+  input_err <- list(3, "seis", 9)
+  expect_error(
+    multiplos_tres_positivos(input_err),
+    "Todos los elementos deben ser números. Fallo en índices: 2"
+  )
+})
