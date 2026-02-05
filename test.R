@@ -144,3 +144,41 @@ test_that("Gestión de errores - Sad Path", {
     "Todos los elementos deben ser números. Fallo en índices: 2"
   )
 })
+
+# ============================================================================
+# BLOQUE 4: Tests para la función 'agrupar_por_letra'
+# ============================================================================
+
+test_that("Happy Path - agrupar_por_letra", {
+  
+  # Caso 1: Agrupación estándar
+  input_1 <- list("casa", "coche", "arbol", "avion", "dado")
+  output_1 <- agrupar_por_letra(input_1)
+  
+  expect_is(output_1, "list")                    # El output debe ser una lista (diccionario)
+  expect_true(all(c("c", "a", "d") %in% names(output_1))) # Comprobamos que existen las claves
+  expect_length(output_1$a, 2)                   # 'arbol' y 'avion'
+  expect_equal(unlist(output_1$c), c("casa", "coche"))
+  
+  # Caso 2: OJO MAYUSCULAS (Agrupo 'Hola' y 'hielo' en la misma 'h')
+  input_2 <- list("Hola", "hielo")
+  output_2 <- agrupar_por_letra(input_2)
+  expect_named(output_2, "h")                    # La clave debe ser 'h' minúscula
+  expect_length(output_2$h, 2)
+})
+
+test_that("Gestión de errores - Sad Path", {
+  
+  # Error 1: Reutilizamos el input_check de strings (Entrada no es lista)
+  expect_error(
+    agrupar_por_letra(c("vector")), 
+    "La entrada de la función debe ser una lista"
+  )
+  
+  # Error 2: Tipos incorrectos (Número en la lista)
+  input_err <- list("perro", 100)
+  expect_error(
+    agrupar_por_letra(input_err),
+    "Todos los elementos deben ser strings. Fallo en índices: 2"
+  )
+})

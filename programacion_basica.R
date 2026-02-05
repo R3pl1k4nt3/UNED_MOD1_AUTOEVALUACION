@@ -161,7 +161,38 @@ lista_no_negativos <- function(value_list) {
   # return(resultado)
 }
 
+# Cuestión 4
+# 
+# Defina una función que agrupe palabras por su primera letra.
+# 
+# Output: diccionario cuya key es la letra y su valor es la lista de strings
 
+agrupar_por_letra <- function(value_list) {
+  
+  # Comprobación de valores usando input_check
+  input_check(value_list)
+  
+  palabras <- unlist(value_list)
+  
+  # Creamos una lista vacía que actuará como nuestro diccionario
+  diccionario <- list()
+  
+  # Obtenemos las letras iniciales únicas para crear las "keys"
+  # Extraemos el primer carácter y pasamos a minúscula para agrupar bien
+  primeras_letras <- tolower(substr(palabras, 1, 1))
+  letras_unicas <- unique(primeras_letras)
+  
+  for (letra in letras_unicas) {
+    # Filtramos las palabras originales que empiezan por esa letra
+    # Usamos las palabras originales para mantener mayúsculas/acentos si los hubiera
+    palabras_grupo <- palabras[primeras_letras == letra]
+    
+    # Asignamos al diccionario en la clave correspondiente
+    diccionario[[letra]] <- as.list(palabras_grupo)
+  }
+  
+  return(diccionario)
+}
 
 
 
