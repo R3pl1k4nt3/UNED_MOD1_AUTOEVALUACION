@@ -53,7 +53,7 @@ test_that("Gestión de errores - Sad Path", {
 # BLOQUE 2: Tests para la función 'palabras_vocales'
 # ============================================================================
 
-test_that("Funcionalidad correcta de palabras_vocales", {
+test_that("Happy Path", {
   
   # Caso 1: Ganador único
   # 'murciélago' (5) vs 'sol' (1)
@@ -73,7 +73,7 @@ test_that("Funcionalidad correcta de palabras_vocales", {
   expect_equal(output_2[[1]], "casa")
   expect_equal(output_2[[2]], "pato")
   
-  # Caso 3: Robustez (Mayúsculas, Acentos Internacionales)
+  # Caso 3: Mayúsculas, Acentos Internacionales
   # 'FORÊT' (2 vocales) vs 'día' (2 vocales) -> Empate
   input_3 <- list("FORÊT", "día")
   output_3 <- palabras_vocales(input_3)
@@ -87,12 +87,12 @@ test_that("Funcionalidad correcta de palabras_vocales", {
 # BLOQUE 3: Tests para la función 'lista_no_negativos'
 # ============================================================================
 
-test_that("Gestión de errores en palabras_vocales", {
+test_that("HAPPY PATH", {
   
   # Reutilizamos el input_check, así que los errores deben ser idénticos
   
   # Error de tipo
-  expect_error(palabras_vocales("No soy lista"), "debe ser una lista")
+  expect_error(palabras_vocales("No soy una lista"), "debe ser una lista")
   
   # Error de contenido numérico
   input_error <- list(3.14, "pi")

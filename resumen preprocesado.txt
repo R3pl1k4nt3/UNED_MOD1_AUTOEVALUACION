@@ -1,0 +1,30 @@
+Resumen Final del Ejercicio
+Para tu tranquilidad y de cara a esa futura evaluación, aquí tienes el resumen del flujo de trabajo profesional que has ejecutado:
+
+Carga y Tipado: Cargaste los datos y convertiste Potability a factor.
+
+Análisis Exploratorio (EDA):
+
+Detectaste que Sulfate tenía demasiados nulos (>15%).
+
+Confirmaste que las clases estaban desbalanceadas (61% vs 39%).
+
+Viste que las variables tenían escalas muy diferentes.
+
+Limpieza de Nulos:
+
+Eliminaste Sulfate.
+
+Imputaste pH y Trihalomethanes usando MICE (PMM) para no romper la distribución estadística.
+
+Limpieza de Outliers:
+
+Usaste Isolation Forest para eliminar quirúrgicamente 13 registros anómalos (ruido), limpiando la muestra sin perder información.
+
+Preprocesado Numérico:
+
+Escalaste (normalizaste) los datos para que el pH y los Sólidos tuvieran el mismo peso matemático.
+
+Balanceo (SMOTE):
+
+Generaste datos sintéticos para igualar las clases al 50%.
